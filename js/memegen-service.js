@@ -1,8 +1,10 @@
 'use strict'
-let gImgCount=10
-let gKeywords = { 'funny': 6, 
-                  'comics': 4,
-                  'dogs':2 }
+let gImgCount = 10
+let gKeywords = {
+    'funny': 6,
+    'comics': 4,
+    'dogs': 2
+}
 let gImgs = createImgs()
 let gMeme = {
     selectedImgId: 5,
@@ -17,6 +19,7 @@ let gMeme = {
     ]
 }
 
+//***********dataBase funcs***********//
 function createImg(id, keywords) {
     return {
         id,
@@ -25,17 +28,31 @@ function createImg(id, keywords) {
     }
 }
 
-function createImgs(){
-    let imgs=[]
-    let nextId=1
-for (let i=0;i<gImgCount;i++){
-imgs.push(createImg(nextId++,['happy']))
+function createImgs() {
+    let imgs = []
+    let nextId = 1
+    for (let i = 0; i < gImgCount; i++) {
+        imgs.push(createImg(nextId++, ['happy']))
+    }
+    return imgs
 }
-  return imgs
-}
-function getImgs(){
+
+function getImgs() {
     return gImgs
 }
-function getKeywords(){
+function getKeywords() {
     return gKeywords
+}
+
+
+//***********gMeme funcs***********//
+function setSelectedImgId(id) {
+    gMeme.selectedImgId = id
+}
+function addMemeText(txtObj) {
+    gMeme.txts.push(txtObj)
+}
+
+function editMemeText(txtObj){
+    gMeme.txts[gMeme.selectedTxtIdx]=txtObj
 }
