@@ -1,15 +1,39 @@
-'use strict';
+'use strict'
 
 let gCanvas
 let gCtx
 
 function init() {
-    gCanvas = document.querySelector('.drawing-board');
-    gCtx = gCanvas.getContext('2d')
-    resizeCanvas()
-    sampleCanvas()
+    renderHomePage()
+    // gCanvas = document.querySelector('.drawing-board');
+    // gCtx = gCanvas.getContext('2d')
+    // resizeCanvas()
+    // sampleCanvas()
 }
+function renderHomePage() {
+    let elMainContent = document.querySelector('main')
+    let imgs=getImgs()
+    let keywordsObj =getKeywords()
+    let strHtml=`
+    <section class="search flex">
+    <input type="text" name="" id="" placeholder="Enter search keyword">
+    <img src="" alt="" class="search-btn">
+    <div class="key-words">`
 
+    for(const keyword in keywordsObj){
+        strHtml+=`<span class="keyword" style="font-size:${keywordsObj[keyword]*0.5}em">${keyword}</span>`
+    }
+    strHtml+=`</div>
+</section>
+    <section class="img-gal flex">`
+ imgs.forEach(imgObj => {
+     strHtml+=`<img src="${imgObj.url}" data-id="${imgObj.id}" onclick="onChooseImg(${imgObj.id})">`
+ });
+    
+    strHtml+=' </section>'
+
+    elMainContent.innerHTML=strHtml
+}
 
 function resizeCanvas() {
     let elContainer = document.querySelector('.canvas-container');

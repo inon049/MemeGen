@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,23 @@
     <link rel="stylesheet" href="css/style.css">
     <title>MemeGen</title>
 </head>
-<body>
-    
 
+<body onload="init()">
+    <header class="main-header">
+        <div class="header-container flex">
+            <img src="assets/img/header/LOGO.png" alt="" class="logo">
+            <img class="open-menu-btn" onclick="toggleMenu()"src="assets/img/header/menu-btn.png" alt="">
+        </div>
+        <nav class="main-nav flex col hide"></nav>
+    </header>
+<main class="container">
+<!--rendered-->
+</main>
 
     <script src="js/utils.js"></script>
     <script src="lib/hammer.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/memegen-service.js"></script>
 </body>
+
 </html>
