@@ -12,7 +12,7 @@ function init() {
 //********on funcs*******//
 function onChooseImg(id) {
     setSelectedImgId(id)
-    renderEditor()
+    renderEditor(id)
 }
 
 
@@ -21,7 +21,8 @@ function onChooseImg(id) {
 function resizeCanvas() {
     let elContainer = document.querySelector('.canvas-container.container');
     gCanvas.width = elContainer.offsetWidth
-    gCanvas.height = elContainer.offsetWidth
+    gCanvas.height = gCanvas.width
+    //elContainer.offsetHeight
 }
 
 // sampleCanvas('.canvas-container.container','panleft pandown panright panup doubletap swipe tap press',funcName)
@@ -72,7 +73,7 @@ function renderHomePage() {
     elMainContent.innerHTML = strHtml
 }
 
-function renderEditor() {
+function renderEditor(bgImgId) {
     let elMainContent = document.querySelector('main')
     let strHtml = `
 <div class="editor">
@@ -85,21 +86,23 @@ function renderEditor() {
         <input type="text" name="" class="txt-line" id="" placeholder="Add text Line">
         <div class="btn-container container">
             <div class="add-remove-btns">
-                <button class="remove">remove</button>
-                <button class="add">add</button>
+                <button class="remove"><img src="assets/img/ICONS/trash.png"/></button>
+                <button class="add"><img src="assets/img/ICONS/add.png"/></button>
             </div>
             <div class="txt-style-btns">
-                <button class="align" data-align="right">right</button>
-                <button class="align" data-align="center">center</button>
-                <button class="align" data-align="left">left</button>
-                <button class="fontsize" data-font="-">-</button>
-                <button class="fontsize" data-font="+">+</button>
-                <select name="" id="" aria-placeholder="Text font">
+                <button class="align" data-align="right"><img src="assets/img/ICONS/align-right.png"/></button>
+                <button class="align" data-align="center"><img src="assets/img/ICONS/align-center.png"/></button>
+                <button class="align" data-align="left"><img src="assets/img/ICONS/align-left.png"/></button>
+                <button class="fontsize" data-font="-"><img src="assets/img/ICONS/font-size-.png"/></button>
+                <button class="fontsize" data-font="+"><img src="assets/img/ICONS/font-size+.png"/></button>
+                <select name="" id="font-select">
                     <option value="">font1</option>
                     <option value="">font2</option>
                 </select>
-                <input type="color" name="" id="fill-color">
-                <input type="color" name="" id="outline-color">
+                <label for="fill-color"><img src="assets/img/ICONS/txt-color.png"/></label>
+                <input type="color" name="" id="fill-color"></input>
+                <label for="outline-color"><img src="assets/img/ICONS/text-stroke.png"/></label>
+                <input type="color" name="" id="outline-color"></input>
             </div>
             <div class="stickers"></div>
         </div>
@@ -109,4 +112,22 @@ function renderEditor() {
     gCanvas = document.querySelector('.main-canvas');
     gCtx = gCanvas.getContext('2d')
     resizeCanvas()
+    drawImg(bgImgId)
+}
+
+
+function drawImg(imgId) {
+    let imgs=getImgs()
+   let ImgIdx= imgs.findIndex(imgObj=>{
+        return imgObj.id===imgId
+    })
+    const img = document.getElementById('temp-img');
+    img.src= imgs[ImgIdx].url
+    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
+}
+
+function downloadCanvas(elLink) {
+    const data = gCanvas.toDataURL()
+    elLink.href = data
+    elLink.download = 'my-img.jpg'
 }

@@ -95,7 +95,30 @@ a .more-keywords {
 .editor{
     background-color: rgba(214, 214, 214, 0.699);
 }
-
+.canvas-container.container{
+  overflow: hidden;
+}
+/**************editor-controls************/
+.btn-container.container button{
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}
+.btn-container.container button> img{
+  width:1rem;
+  }
+  .btn-container.container label{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+  }
+  .btn-container.container  label> img{
+    width:1rem;
+  }
+  .btn-container.container  input{
+    position: absolute;
+    left:-99999999;
+  }
 /**************footer************/
 footer {
     justify-content: center;
