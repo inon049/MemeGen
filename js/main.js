@@ -16,21 +16,28 @@ function renderHomePage() {
     let keywordsObj =getKeywords()
     let strHtml=`
     <section class="search flex">
-    <input type="text" name="" id="" placeholder="Enter search keyword">
-    <img src="" alt="" class="search-btn">
-    <div class="key-words">`
+    <div class="search-bar">
+    <input class="search-input"type="text" name="" id="" placeholder="Enter search keyword"></input>
+    <img src="assets/img/ICONS/search-icon.png" alt="" class="search-btn">
+    </div>
+    <div class="key-words flex container">`
 
     for(const keyword in keywordsObj){
-        strHtml+=`<span class="keyword" style="font-size:${keywordsObj[keyword]*0.5}em">${keyword}</span>`
+        let count =1
+        if(count<4){
+            strHtml+=`<a class="keyword" style="font-size:${keywordsObj[keyword]*0.5}em">${keyword}<a>`
+            count++
+        }
     }
-    strHtml+=`</div>
+    strHtml+=`<a class="more-keywords">more...</a></div>
 </section>
-    <section class="img-gal flex">`
+    <section class="img-gal">
+    <div class="container flex">`
  imgs.forEach(imgObj => {
      strHtml+=`<img src="${imgObj.url}" data-id="${imgObj.id}" onclick="onChooseImg(${imgObj.id})">`
  });
     
-    strHtml+=' </section>'
+    strHtml+=' </div></section>'
 
     elMainContent.innerHTML=strHtml
 }

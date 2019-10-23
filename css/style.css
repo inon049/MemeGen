@@ -1,6 +1,11 @@
 * {
   box-sizing: border-box;
 }
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body {
   font-family: Arial, Helvetica, sans-serif;
   width: 100vw;
@@ -9,42 +14,91 @@ body {
 }
 /**************header************/
 
-header.main-header{
-    background-color: orange;
-    height:6rem;
-    width: 100%;
+header.main-header {
+  background-color: orange;
+  height: 6rem;
+  width: 100%;
 }
-.header-container{
-    height: 100%;
-    padding:1rem;
-    justify-content: space-between;
+.header-container {
+  height: 100%;
+  padding: 1rem;
+  justify-content: space-between;
 }
-.main-header .logo{
-    height: 100%;
-    justify-self: flex-start;
+.main-header .logo {
+  height: 100%;
+  justify-self: flex-start;
 }
-.main-header .open-menu-btn{
-    height: 100%;
-    background: none;
-   
+.main-header .open-menu-btn {
+  height: 100%;
+  background: none;
+  justify-self: flex-end;
 }
 
 /**************main************/
 
 /**************homePage************/
-
-.img-gal{
-    flex-wrap: wrap;
+.search {
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  
+}
+.search .search-bar {
+    margin-top: 0.4rem;
+  box-shadow: inset 0px -2px 0px 0px #646464;
+  width: 80%;
+}
+.search-input {
+  box-shadow: inset 0px -2px 0px 0px #646464;
+  border: 0;
+  color: #7a7a7a;
+  font-size: 1.1875rem;
 }
 
-.img-gal img{
-    width: 50%;
-    padding: 5px;
+.search div {
+  display: flex;
+  height: 3rem;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
 }
+.key-words {
+  align-items: center;
+  justify-content: center;
+  padding: 0.33rem;
+}
+.search-btn {
+    width: 1.2rem;
+    align-self: center;
+    margin-right: 0.2rem;
+}
+a .more-keywords {
+  box-shadow: inset 0px -2px 0px 0px #7a7a7a;
+}
+.img-gal {
+  background-color: rgba(214, 214, 214, 0.699);
+  width: 100%;
+}
+.img-gal div {
+  flex-wrap: wrap;
+}
+.img-gal img {
+  width: 50%;
+  padding: 0.33rem;
+}
+/**************footer************/
+footer {
+    justify-content: center;
+    align-items: center;
+  background-color: orange;
+  height: 15rem;
+  width: 100%;
+}
+
+
 /**************helpers************/
-.container{
-    width:95%;
-    margin: 0 auto;
+.container {
+  width: 95%;
+  margin: 0 auto;
 }
 .flex {
   display: flex;
@@ -52,6 +106,6 @@ header.main-header{
 .flex.col {
   flex-direction: column;
 }
-.hide{
-    display: none;
+.hide {
+  display: none;
 }

@@ -1,6 +1,8 @@
 'use strict'
 let gImgCount=10
-let gKeywords = { 'happy': 12, 'funny puk': 1 }
+let gKeywords = { 'funny': 6, 
+                  'comics': 4,
+                  'dogs':2 }
 let gImgs = createImgs()
 let gMeme = {
     selectedImgId: 5,
