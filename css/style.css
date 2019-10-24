@@ -12,11 +12,14 @@ body {
   height: 100vh;
   margin: 0 auto;
 }
+main {
+  height: 88%;
+}
 /**************header************/
 
 header.main-header {
   background-color: orange;
-  height: 6rem;
+  height: 12%;
   width: 100%;
 }
 .header-container {
@@ -24,14 +27,16 @@ header.main-header {
   padding: 1rem;
   justify-content: space-between;
 }
-.main-header .logo {
+.logo {
   height: 100%;
   justify-self: flex-start;
+  cursor: pointer;
 }
-.main-header .open-menu-btn {
+.open-menu-btn {
   height: 100%;
   background: none;
   justify-self: flex-end;
+  cursor: pointer;
 }
 
 /**************main************/
@@ -41,10 +46,10 @@ header.main-header {
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
-  
+  height: 20%;
 }
 .search .search-bar {
-    margin-top: 0.4rem;
+  margin-top: 0.4rem;
   box-shadow: inset 0px -2px 0px 0px #646464;
   width: 80%;
 }
@@ -69,65 +74,84 @@ header.main-header {
   padding: 0.33rem;
 }
 .search-btn {
-    width: 10%;
-    align-self: center;
-    padding: 0.4rem;
-    cursor: pointer;
+  width: 7%;
+  min-width: 40px;
+  max-width: 50px;
+  align-self: center;
+  padding: 0.4rem;
+  cursor: pointer;
 }
 a .more-keywords {
-    cursor: pointer;
+  cursor: pointer;
   box-shadow: inset 0px -2px 0px 0px #7a7a7a;
 }
 /**************image gallery************/
 .img-gal {
   background-color: rgba(214, 214, 214, 0.699);
   width: 100%;
+  height: 80%;
+  overflow: scroll;
 }
 .img-gal div {
   flex-wrap: wrap;
 }
 .img-gal img {
-    cursor: pointer;
+  cursor: pointer;
   width: 50%;
   padding: 0.33rem;
 }
 /**************editor************/
-.editor{
-    background-color: rgba(214, 214, 214, 0.699);
+.editor {
+  background-color: rgba(214, 214, 214, 0.699);
+  height: 100%;
+  padding-top: 2%;
 }
-.canvas-container.container{
+canvas {
+  left: 0;
+  top: 0;
+  display: inline-block;
+  position: absolute;
+}
+.canvas-container.container {
   overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+.editor .display {
+  height: 50%;
+}
+.editor .controls {
+  height: 50%;
 }
 /**************editor-controls************/
-.btn-container.container button{
+.btn-container.container button {
   display: flex;
   justify-content: center;
-  align-items:center;
+  align-items: center;
 }
-.btn-container.container button> img{
-  width:1rem;
-  }
-  .btn-container.container label{
-    display: flex;
-    justify-content: center;
-    align-items:center;
-  }
-  .btn-container.container  label> img{
-    width:1rem;
-  }
-  .btn-container.container  input{
-    position: absolute;
-    left:-99999999;
-  }
+.btn-container.container button > img {
+  width: 1rem;
+}
+.btn-container.container label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-container.container label > img {
+  width: 1rem;
+}
+.btn-container.container input {
+  position: absolute;
+  top: -100%;
+}
 /**************footer************/
 footer {
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
   background-color: orange;
-  height: 15rem;
+  height: 150px;
   width: 100%;
 }
-
 
 /**************helpers************/
 .container {

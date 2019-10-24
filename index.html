@@ -12,7 +12,7 @@
 <body onload="init()">
     <header class="main-header">
         <div class="header-container flex">
-            <img src="assets/img/header/LOGO.png" alt="" class="logo">
+            <img onclick="renderHomePage()" src="assets/img/header/LOGO.png" alt="" class="logo">
             <img class="open-menu-btn" onclick="toggleMenu()" src="assets/img/header/menu-btn.png" alt="">
         </div>
         <nav class="main-nav flex col hide"></nav>
@@ -25,9 +25,13 @@
         <br />
         <small>All rights reserved 2019</small>
     </footer>
-    
- <!--temporary image for drawImg func-->
-    <img src=""id="temp-img" style="position:absolute; left:-9999999">
+
+    <!--hidden elements section-->
+    <section class="hiddenEls" style=" position: absolute;top :-100%">
+        <img src="" id="temp-img">
+
+    </section>
+    <!--------------------------------------------------->
     <script src="js/utils.js"></script>
     <script src="lib/hammer.min.js"></script>
     <script src="js/main.js"></script>
