@@ -28,14 +28,14 @@ header.main-header {
   justify-content: space-between;
 }
 .logo {
-  height: 100%;
-  justify-self: flex-start;
+  height: 70%;
+  align-self: center;
   cursor: pointer;
 }
 .open-menu-btn {
-  height: 100%;
+  height: 70%;
   background: none;
-  justify-self: flex-end;
+  align-self: center;
   cursor: pointer;
 }
 
@@ -105,6 +105,10 @@ a .more-keywords {
   background-color: rgba(214, 214, 214, 0.699);
   height: 100%;
   padding-top: 2%;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  align-items: center;
 }
 canvas {
   left: 0;
@@ -114,18 +118,15 @@ canvas {
 }
 .canvas-container.container {
   overflow: hidden;
-  height: 100%;
   position: relative;
-  max-width: 400px;
+  height: 350px;
+  width: 350px;
 }
 .editor .display {
-  height: 50%;
   margin-bottom: 2%;
-  max-width: 400px;
 }
 .editor .controls {
   height: 50%;
-  max-width: 400px;
 }
 /**************editor-controls************/
 .btn-container {
@@ -137,15 +138,18 @@ canvas {
   border: 0;
   height: 13%;
   margin-bottom: 2%;
+  padding :2%
 }
 .add-remove-btns {
   justify-content: space-around;
   height: 17%;
   padding: 0 6%;
+  margin-bottom: 4%;
 }
 .add-remove-btns button {
   cursor: pointer;
-  width: 13.7%;
+  width: 40px;
+  height: 40px;
   max-width: 40px;
 }
 .txt-style-btns {
@@ -154,9 +158,10 @@ canvas {
   height: 30%;
 }
 .txt-style-btns button {
-  width: 18%;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  max-width: 40px;
+  
 }
 
 .txt-style-btns :first-child {
@@ -169,15 +174,15 @@ canvas {
   background-color: white;
 }
 .txt-style-btns label {
-  width: 12%;
   cursor: pointer;
   border: 0;
   border-radius: 12px;
   background-color: white;
-  max-width: 40px;
+  width: 40px;
+  height: 40px;
 }
 
-.btn-container.container button {
+.btn-container button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -186,18 +191,18 @@ canvas {
   background-color: white;
   margin-bottom: 2%;
 }
-.btn-container.container button > img {
+.btn-container button > img {
   width: 1rem;
 }
-.btn-container.container label {
+.btn-container label {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.btn-container.container label > img {
+.btn-container label > img {
   width: 1rem;
 }
-.btn-container.container input {
+.btn-container input {
   position: absolute;
   top: -100%;
 }

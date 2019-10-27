@@ -14,7 +14,7 @@ let gMeme = {
 let gDefaultTxtObj = {
     line: '',
     size: 30,
-    align: 'left',
+    align: 'center',
     color: 'white',
     outline: 'black',
     font: 'Impact',
@@ -22,9 +22,6 @@ let gDefaultTxtObj = {
 }
 
 //***********dataBase funcs***********//
-function getDefualtTxt() {
-    return gDefaultTxtObj
-}
 
 function createImg(id, keywords) {
     return {
@@ -58,16 +55,13 @@ function getMemeObj() {
 function setSelectedTxtLine(currValStr) {
     gDefaultTxtObj.pos.x = gCanvas.width / 2
 
-    if (gMeme.txts.length === 0){
+    if (gMeme.txts.length === 0) {
         gMeme.txts.push(gDefaultTxtObj)
-    } 
+    }
 
     gMeme.txts[gMeme.selectedTxtIdx].line = currValStr
 }
 
-function setSelectedTxtOutLine(color) {
-    gMeme.txts[gMeme.selectedTxtIdx].line = color
-}
 function setSelectedTxtSize(sign) {
     let size = gMeme.txts[gMeme.selectedTxtIdx].size
     gMeme.txts[gMeme.selectedTxtIdx].size = (sign === '-') ? size - 1 : size + 1
@@ -89,33 +83,39 @@ function removeSelectedTxt() {
     document.querySelector('.txt-line').value = ''
     console.log(gMeme.txts);
     drawTexts()
+    gMeme.selectedTxtIdx--
+    if (gMeme.txts.length === 0) {
+        gDefaultTxtObj.line = ''
+        gMeme.txts.push(gDefaultTxtObj)
+        gMeme.selectedTxtIdx = 0
+
+        console.log(gMeme.txts);
+    }
 }
 function setSelectedImgId(id) {
     gMeme.selectedImgId = id
 }
-function setSelectedTxtIdx(idx){
-    gMeme.selectedTxtIdx=idx
+function setSelectedTxtIdx(idx) {
+    gMeme.selectedTxtIdx = idx
     return gMeme.txts[idx].line
+}
+function setTxtObjPosByIdx(idx, x, y) {
+    gMeme.txts[idx].pos = { x, y }
 }
 
 function addTxtObj() {
     let height;
     let width = gCanvas.width / 2
-    console.log(gMeme.txts.length);
-    if (gMeme.txts.length === 1) {
-        height = gCanvas.height - 60
-        console.log('second text');
-    } else if (gMeme.txts.length >=2) {
-        height =   gCanvas.height / 2 ,console.log('third');
-    }
+    if (gMeme.txts.length === 1) height = gCanvas.height - 60
+    else if (gMeme.txts.length >= 2) height = gCanvas.height / 2
+    var lastTxt = gMeme.txts[gMeme.selectedTxtIdx]
     let txtObj = {}
-    var lastTxt=gMeme.txts[gMeme.selectedTxtIdx]
     txtObj.size = lastTxt.size
-    txtObj.align=lastTxt.align
-    txtObj.color=lastTxt. color
-    txtObj.outline=lastTxt.outline
-    txtObj.font=lastTxt.font
-    txtObj.pos={x:width,y:height}
+    txtObj.align = lastTxt.align
+    txtObj.color = lastTxt.color
+    txtObj.outline = lastTxt.outline
+    txtObj.font = lastTxt.font
+    txtObj.pos = { x: width, y: height }
     gMeme.txts.push(txtObj)
     gMeme.selectedTxtIdx++
 }
