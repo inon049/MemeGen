@@ -2,20 +2,29 @@
 
 let gCanvas
 let gCtx
+let gSelection=true
 function init() {
     renderHomePage()
 }
 //********on funcs*******//
+function onSetFont(fontName) {
+    setSelectedTxtFont(fontName)
+}
+
 function onChooseImg(id) {
     setSelectedImgId(id)
     renderEditor(id)
 }
+
 function onTxtInputChange(currValue, ev) {
     if (ev.keyCode !== 13) {
         setSelectedTxtLine(currValue)
         drawTexts()
+    } else {
+        onAddTxt()
     }
 }
+
 function onRemoveTxt() {
     removeSelectedTxt()
     drawTexts()
@@ -38,25 +47,19 @@ function onChangeFill(color) {
     setSelectedTxtFill(color)
     drawTexts()
 }
-function onAddTxt(){
-    document.querySelector('.txt-line').value=''
-    let meme =getMemeObj()
-    let height; 
-    if(meme.txts.length=1) height =gCanvas.height-150
-    else if(meme.txts.length>1) height= gCanvas.height/2
-    let txtObj= {
-        line:'',
-        size: 20, 
-        align: 'left',
-        color: document.getElementById('fill-color').value,
-        outline:document.getElementById('outline-color').value,
-        pos: { x: 100, y:height }
+
+function onAddTxt() {
+    let line = document.querySelector('.txt-line')
+    if (line.value) {
+        line.value = ''
+        line.focus()
+        addTxtObj()
     }
-    addTxtObj(txtObj)
 }
 //********canvas funcs*******//
 function drawTexts() {
     let meme = getMemeObj()
+    let count = 0
     drawImg(meme.selectedImgId)
     meme.txts.forEach(txtObj => {
         gCtx.textAlign = txtObj.align
@@ -64,7 +67,19 @@ function drawTexts() {
         gCtx.fillStyle = txtObj.color;
         gCtx.fillText(txtObj.line, txtObj.pos.x, txtObj.pos.y);
         gCtx.strokeStyle = txtObj.outline
+        txtObj.txtWidth = gCtx.measureText(txtObj.line).width
+        if (count === meme.selectedTxtIdx&&gSelection) {
+            let startX = txtObj.pos.x
+            let endX =txtObj.txtWidth
+            let startY = txtObj.pos.y - txtObj.size
+            let endY = txtObj.size
+            gCtx.fillStyle = 'rgba(0,0,0,0.3)';
+            gCtx.fillRect(startX, startY, endX, endY);
+        }
+        gCtx.fillStyle = txtObj.color;
+        gCtx.fillText(txtObj.line, txtObj.pos.x, txtObj.pos.y);
         gCtx.strokeText(txtObj.line, txtObj.pos.x, txtObj.pos.y);
+        count++
     })
 }
 function drawImg(imgId) {
@@ -85,24 +100,45 @@ function downloadCanvas(elLink) {
 function resizeCanvas() {
     let elContainer = document.querySelector('.canvas-container.container');
     gCanvas.width = elContainer.offsetWidth
-    gCanvas.height = gCanvas.width
-    //elContainer.offsetHeight
+    gCanvas.height = elContainer.offsetHeight
 }
-// sampleCanvas('.canvas-container.container','panleft pandown panright panup doubletap swipe tap press',funcName)
-function sampleCanvas(selectorStr, eventsStr, funcName) {
-    const elCanvas = document.querySelector(selectorStr);
-    const hmrCanvas = new Hammer(elDrawingBoard);
+function sampleCanvas() {
+    const elCanvas = document.querySelector('.canvas-container.container');
+    const hmrCanvas = new Hammer(elCanvas);
 
-    hmrDrawingBoard.on(eventsStr, funcName(ev))
+    hmrCanvas.on('tap', (ev) => {
+        checkIfText(ev.srcEvent.offsetX, ev.srcEvent.offsetY)
+    })
 }
-//******canvas event funcs******//
-function onMainCanvasEvent(ev) {
-    //todo- sort events//
+
+function checkIfText(x, y) {
+    let meme = getMemeObj()
+
+    var clickedTxtIdx = meme.txts.findIndex(txtObj => {
+        let txtRange = {
+            startX: txtObj.pos.x,
+            endX: txtObj.pos.x + txtObj.txtWidth,
+            startY: txtObj.pos.y - txtObj.size,
+            endY: txtObj.pos.y
+        }
+        return (x <= txtRange.endX && x >= txtRange.startX && y <= txtRange.endY && y >= txtRange.startY)
+    })
+    if (clickedTxtIdx !== -1) {
+        let txt=setSelectedTxtIdx(clickedTxtIdx)
+        document.querySelector('.txt-line').value=txt
+        gSelection=true
+        drawTexts()
+    }else{
+        gSelection=false
+        drawTexts()
+    }
 }
-function onTextCanvasEvent(ev) {
-    //todo- sort events//
-}
-//******renders******//
+
+
+
+//******renders funcs******//
+
+
 function renderHomePage() {
     let elMainContent = document.querySelector('main')
     let imgs = getImgs()
@@ -134,112 +170,49 @@ function renderHomePage() {
 
     elMainContent.innerHTML = strHtml
 }
-const newLocal = `
-<div class="editor">
-    <section class="display">
-        <div class="canvas-container container">
-            <canvas class="main-canvas"></canvas>
-        </div>
-    </section>
-    <section class="controls">
-        <input type="text" class="txt-line" onkeyup="onTxtInputChange(this.value,event)" id="" placeholder="Add text Line">
-        <div class="btn-container container">
-            <div class="add-remove-btns">
-                <button class="remove" onclick="onRemoveTxt()"><img src="assets/img/ICONS/trash.png"/></button>
-                <button class="add" onclick="onAddTxt()"><img src="assets/img/ICONS/add.png"/></button>
-            </div>
-            <div class="txt-style-btns">
-                <button class="align" onclick="onChangeAlign(this)" data-align="right"><img src="assets/img/ICONS/align-right.png"/></button>
-                <button class="align" onclick="onChangeAlign(this)" data-align="center"><img src="assets/img/ICONS/align-center.png"/></button>
-                <button class="align" onclick="onChangeAlign(this)" data-align="left"><img src="assets/img/ICONS/align-left.png"/></button>
-                <button class="fontsize" onclick="onChangeSize(this)" data-font="-"><img src="assets/img/ICONS/font-size-.png"/></button>
-                <button class="fontsize" onclick="onChangeSize(this)" data-font="+"><img src="assets/img/ICONS/font-size+.png"/></button>
-                <select id="font-select" onchange="onSetFont(this.value)">
-                    <option value="">font1</option>
-                    <option value="">font2</option>
-                </select>
-                <label for="fill-color"><img src="assets/img/ICONS/txt-color.png"/></label>
-                <input type="color" id="fill-color" onchange="onChangeFill(this.value)"></input>
-                <label for="outline-color"><img src="assets/img/ICONS/text-stroke.png"/></label>
-                <input type="color" id="outline-color" onchange="onChangeOutline(this.value)"></input>
-            </div>
-            <div class="stickers"></div>
-        </div>
-    </section>
-</div>`
 function renderEditor(bgImgId) {
     let elMainContent = document.querySelector('main')
-    let strHtml = newLocal
+    let strHtml = `
+    <div class="editor">
+        <section class="display">
+            <div class="canvas-container container">
+                <canvas class="main-canvas"></canvas>
+            </div>
+        </section>
+        <section class="controls">
+           
+            <div class="btn-container container">
+            <input type="text" class="txt-line" style="position:relative" onkeyup="onTxtInputChange(this.value,event)" id="" placeholder="Add text Line">
+                <div class="add-remove-btns flex">
+                    <button class="remove" onclick="onRemoveTxt()"><img src="assets/img/ICONS/trash.png"/></button>
+                    <button class="add" onclick="onAddTxt()"><img src="assets/img/ICONS/add.png"/></button>
+                </div>
+                <div class="txt-style-btns flex">
+                    <button class="align" onclick="onChangeAlign(this)" data-align="left"><img src="assets/img/ICONS/align-right.png"/></button>
+                    <button class="align" onclick="onChangeAlign(this)" data-align="center"><img src="assets/img/ICONS/align-center.png"/></button>
+                    <button class="align" onclick="onChangeAlign(this)" data-align="right"><img src="assets/img/ICONS/align-left.png"/></button>
+                    <button class="fontsize" onclick="onChangeSize(this)" data-font="-"><img src="assets/img/ICONS/font-size-.png"/></button>
+                    <button class="fontsize" onclick="onChangeSize(this)" data-font="+"><img src="assets/img/ICONS/font-size+.png"/></button>
+                    <select id="font-select" onchange="onSetFont(this.value)">
+                        <option value=" Impact"> Impact</option>
+                        <option value="Arial">Arial</option>
+                    </select>
+                    <label for="fill-color"><img src="assets/img/ICONS/txt-color.png"/></label>
+                    <input type="color" id="fill-color" onchange="onChangeFill(this.value)"></input>
+                    <label for="outline-color"><img src="assets/img/ICONS/text-stroke.png"/></label>
+                    <input type="color" id="outline-color" onchange="onChangeOutline(this.value)"></input>
+                </div>
+                <div class="stickers"></div>
+            </div>
+        </section>
+    </div>`
+
+
     elMainContent.innerHTML = strHtml
     gCanvas = document.querySelector('.main-canvas');
     gCtx = gCanvas.getContext('2d')
     resizeCanvas()
+    sampleCanvas()
     drawImg(bgImgId)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// couldent finish this solution on time so i went with simpler version, will probably make it work this weekend
-
-// function renderTxtCanvas() {
-//     let meme = getMemeObj()
-//     let selectedTxtObj = meme.txts[meme.selectedTxtIdx]
-//     let selectedTxtIdx = meme.selectedTxtIdx
-//     let elTxtCanvas = document.getElementById(`txt-${selectedTxtIdx}`)
-//     if (elTxtCanvas) {
-//         gTxtBoxes[selectedTxtIdx].ctx.restore()
-//         console.log('imhere');
-//         console.log(gTxtBoxes[selectedTxtIdx].ctx);
-//         drawText(selectedTxtObj, selectedTxtIdx)
-//         drawImg(meme.selectedImgId)
-//     } else {
-//         let elCanvasContainer = document.querySelector('.canvas-container.container')
-
-//         elCanvasContainer.innerHTML += `<canvas class="txt-canvas" id="txt-${selectedTxtIdx}" width="${gCanvas.width / 100 * 80}" height="${gCanvas.height / 100 * 30}">`
-//         gTxtBoxes.push(createTxtCanvas(selectedTxtIdx))
-//         drawImg(meme.selectedImgId)
-//         drawText(selectedTxtObj, selectedTxtIdx)
-//     }
-
-// }
-// function createTxtCanvas(idx) {
-//     return {
-//         canvas: document.getElementById(`txt-${idx}`),
-//         ctx: document.getElementById(`txt-${idx}`).getContext('2d')
-//     }
-// }
-// let ctx = gTxtBoxes[idx].ctx
-// let canvas = gTxtBoxes[idx].canvas

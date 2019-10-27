@@ -9,19 +9,22 @@ let gImgs = createImgs()
 let gMeme = {
     selectedImgId: 5,
     selectedTxtIdx: 0,
-    txts: [
-        {
-            line: 'I never eat Falafel',
-            size: 20,
-            align: 'left',
-            color: 'black',
-            outline: 'blue',
-            pos: { x: 100, y: 50 }
-        }
-    ]
+    txts: []
+}
+let gDefaultTxtObj = {
+    line: '',
+    size: 30,
+    align: 'left',
+    color: 'white',
+    outline: 'black',
+    font: 'Impact',
+    pos: { x: 0, y: 60 }
 }
 
 //***********dataBase funcs***********//
+function getDefualtTxt() {
+    return gDefaultTxtObj
+}
 
 function createImg(id, keywords) {
     return {
@@ -50,10 +53,18 @@ function getKeywords() {
 function getMemeObj() {
     return gMeme
 }
+
 //***********gMeme update funcs***********//
 function setSelectedTxtLine(currValStr) {
+    gDefaultTxtObj.pos.x = gCanvas.width / 2
+
+    if (gMeme.txts.length === 0){
+        gMeme.txts.push(gDefaultTxtObj)
+    } 
+
     gMeme.txts[gMeme.selectedTxtIdx].line = currValStr
 }
+
 function setSelectedTxtOutLine(color) {
     gMeme.txts[gMeme.selectedTxtIdx].line = color
 }
@@ -67,26 +78,48 @@ function setSelectedTxtAlign(alignStr) {
 function setSelectedTxtFill(color) {
     gMeme.txts[gMeme.selectedTxtIdx].color = color
 }
+function setSelectedTxtFont(fontName) {
+    gMeme.txts[gMeme.selectedTxtIdx].font = fontName
+}
 function setSelectedTxtOutLine(color) {
     gMeme.txts[gMeme.selectedTxtIdx].outline = color
 }
 function removeSelectedTxt() {
     gMeme.txts.splice(gMeme.selectedTxtIdx, 1)
-    if (gMeme.txts.length === 0) gMeme.txts.push({
-        line: 'I never eat Falafel',
-        size: 20, align: 'rigth',
-        color: 'red',
-        outline: 'blue',
-        pos: { x: 100, y: 50 }
-    })
+    document.querySelector('.txt-line').value = ''
+    console.log(gMeme.txts);
+    drawTexts()
 }
 function setSelectedImgId(id) {
     gMeme.selectedImgId = id
 }
-function addTxtObj(txtObj) {
-   gMeme.txts.push(txtObj)
-   gMeme.selectedTxtIdx++
+function setSelectedTxtIdx(idx){
+    gMeme.selectedTxtIdx=idx
+    return gMeme.txts[idx].line
 }
+
+function addTxtObj() {
+    let height;
+    let width = gCanvas.width / 2
+    console.log(gMeme.txts.length);
+    if (gMeme.txts.length === 1) {
+        height = gCanvas.height - 60
+        console.log('second text');
+    } else if (gMeme.txts.length >=2) {
+        height =   gCanvas.height / 2 ,console.log('third');
+    }
+    let txtObj = {}
+    var lastTxt=gMeme.txts[gMeme.selectedTxtIdx]
+    txtObj.size = lastTxt.size
+    txtObj.align=lastTxt.align
+    txtObj.color=lastTxt. color
+    txtObj.outline=lastTxt.outline
+    txtObj.font=lastTxt.font
+    txtObj.pos={x:width,y:height}
+    gMeme.txts.push(txtObj)
+    gMeme.selectedTxtIdx++
+}
+
 function editMemeText(txtObj) {
     gMeme.txts[gMeme.selectedTxtIdx] = txtObj
 }
